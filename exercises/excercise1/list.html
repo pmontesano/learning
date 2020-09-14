@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title></title>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
+</head>
+<body>
+	<div class="container">
+		<form action="" class="form">
+			<p class="input-group">
+				<input type="text" class="form-control" placeholder="Nombre" data-js="name">
+			</p>
+			<p class="input-group">
+				<input type="text" class="form-control" placeholder="Apellido" data-js="lastname">
+			</p>
+			<p class="input-group">
+				<input type="text" class="form-control" placeholder="Teléfono" data-js="phone">
+			</p>
+			<button type="button" class="btn btn-primary" id="AddFill">Agregar</button>
+		</form>
+		<table class="table">
+			<thead>
+				<th>Nombre</th>
+				<th>Apellido</th>
+				<th>Teléfono</th>
+				<th>Acciones</th>
+			</thead>
+			<tbody data-js="table-list"></tbody>
+		</table>
+	</div>
+</body>
+</html>
+
+
+<script>
+
+(function tableList(win, doc){
+		
+	var list = [];
+	var sendButton = doc.getElementById('AddFill');
+	var contentHtml = doc.querySelector('[data-js="table-list"]');
+	var personName = doc.querySelector('[data-js="name"]').value;
+
+
+	// evento click para agregar la data
+	sendButton.addEventListener( 'click', function () {
+        insertData();
+    });
+
+    function insertData() {
+    	debugger;
+	    var person = {
+			name : this.personName,
+			lastname: doc.querySelector('[data-js="lastname"]').value,
+			phone: doc.querySelector('[data-js="phone"]').value
+		}
+
+		// hacer push para agregar la data
+		list.push(person);
+		clearInput(person);
+		console.log(list);
+
+		contentHtml.innerHTML = '';
+		contentHtml.innerHTML = listIteration();
+    }
+
+    function listIteration(){	
+
+		var contentHtml = '';
+
+		// itero el array y le agrego el html 
+		list.forEach(function(person){
+			contentHtml += "<tr>";
+			contentHtml += "<td>" + person.name + "</td>"
+			contentHtml += "<td>" + person.lastname + "</td>"
+			contentHtml += "<td>" + person.phone + "</td>"
+			contentHtml += "<td><span class='btn-secondary'>" + "Editar" + "</span></td>"
+			contentHtml += "</tr>";
+		});
+
+		return contentHtml;
+	}
+
+	function clearInput(person) {
+		doc.querySelector('[data-js="name"]').value = '';
+		doc.querySelector('[data-js="lastname"]').value = '';
+		doc.querySelector('[data-js="phone"]').value = '';
+	}
+
+
+})(window, document);
+
+
+</script>
